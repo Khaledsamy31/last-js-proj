@@ -23,3 +23,4 @@ logOutBtn.addEventListener("click", function (){
         window.location = "login.html";
     } , 1500)
 })
+
