@@ -48,49 +48,5 @@ sing_in.addEventListener("click", function(e){
 
 
 
-function cartDraw(){
-    bdg_counter.innerHTML=userProducts.length
-    if(userProducts.length != 0){
-            if(userProducts.length !=0){
-                // cart.style.display='block';
-                cardProducts.innerHTML=''
-                        for(let i=0;i<userProducts.length;i++){
-                            cardProducts.innerHTML+=`
-                            <div>
-                
-                            <ul>
-                              <li style="list-style: none; transform: translate(-20px,0px);">
-                                <span">${userProducts[i].title}+ ${userProducts[i].price}</span>
-                            
-                                <div class="plus" style="display: inline-block; transform: translate(25px,0px);">
-                                     <span >${userProducts[i].count}</span>
-                                     <a href="#" class="pluss ms-1"><i class="fas fa-plus text-success" style="font-size: 20px; font-weight: bold;"></i></a>
-                                     <a href="#" class="minus ms-1"><i class="fas fa-minus text-danger"></i></a>
-                                    </div>
-                                  </div> 
 
-                        `
-                        }
-            }else{
-                cardProducts.style.display='none';
-            }
-    }else if(localStorage.getItem('items')){
-        userProducts=JSON.parse(localStorage.getItem('items'))
-        if(userProducts.length!=0){
-                    cartDraw()
-
-        }
-        
-        let btns=userProducts.map((arr)=>{
-            return arr.id;
-        })
-        btns.forEach(ele => {
-            document.getElementById(ele).style.display='none'
-            document.getElementById(ele+'btn_remove').style.display='block'
-        });
-    }else{
-
-    }
-}
-cartDraw()
 

@@ -113,3 +113,59 @@ function addItems(id){
     bdg_counter.innerHTML=userProducts.length
 
 } 
+
+function cartDraw(){
+    bdg_counter.innerHTML=userProducts.length
+    if(userProducts.length != 0){
+            if(userProducts.length !=0){
+                // cart.style.display='block';
+                cardProducts.innerHTML=''
+                        for(let i=0;i<userProducts.length;i++){
+                            cardProducts.innerHTML += `
+              <div class="cart_list">
+                
+                <div class="cart_list_title">
+                  <span">${userProducts[i].title}+ ${userProducts[i].price}</span>
+                </div>
+                <div class="cart_list_plus_minus">
+                  <span >${userProducts[i].count}</span>
+                  <a href="#" class="pluss ms-2"><i class="fas fa-plus text-success" style="font-size: 20px; font-weight: bold; "onclick="plusBtn(${userProducts[i].id})"></i></a>
+                  <a href="#" class="minus ms-4"><i class="fas fa-minus text-danger"></i></a>
+                </div>
+                </div>  <!-- // cart_list -->
+
+                
+
+                        `
+                        }
+            }else{
+                cardProducts.style.display='none';
+            }
+    }else if(localStorage.getItem('items')){
+        userProducts=JSON.parse(localStorage.getItem('items'))
+        if(userProducts.length!=0){
+                    cartDraw()
+
+        }
+        
+        let btns=userProducts.map((arr)=>{
+            return arr.id;
+        })
+        btns.forEach(ele => {
+            document.getElementById(ele).style.display='none'
+            document.getElementById(ele+'btn_remove').style.display='block'
+        });
+    }else{
+
+    }
+}
+cartDraw()
+
+function plusBtn(id){
+    ele=userProducts.find((x)=>{
+       return x.id==id
+    })
+    ele.count++;
+    localStorage.setItem('items',JSON.stringify(userProducts))
+    cartDraw()
+}
