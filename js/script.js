@@ -7,10 +7,11 @@ let cardsproductsDiv = document.querySelector(".carts_products div") //select ca
 //===========================SHOPING CARD ICON===================
 let shopping_card_icon = document.querySelector('.shopping_cart')
 let cardProducts = document.querySelector(".carts_products")
+
+
 shopping_card_icon.addEventListener("click", opencard)
-
-
 function opencard(){
+    
     if(cardsproductsDiv.innerHTML != ""){ //if shopping icon not empty check if it display bloc do it none when click and if it none do t block when click
         if(cardProducts.style.display == "block"){
             cardProducts.style.display = "none"
@@ -19,6 +20,7 @@ function opencard(){
         }
     }
 }
+
 
 //====================== add & remove btn ==========================
 
@@ -32,9 +34,10 @@ let userProducts=[]
 
 
 class products{
-    constructor({title,price,category,img,id}){
+    constructor({title,price,sumPrice,category,img,id}){
         this.title=title;
         this.price=price;
+        this.sumPrice=sumPrice;
         this.category=category,
         this.img=img
         this.id=id
@@ -43,10 +46,10 @@ class products{
     }
 }
 
-const product1=new products({title: "phone",price:'180 L.E',category:'fashion',img:'images/category-banner1.jpg',id:1});
-const product2=new products({title: "car",price:'180 L.E',category:'fashion',img:'images/category-banner2.jpg',id:2});
-const product3=new products({title: "bike",price:'180 L.E',category:'fashion',img:'images/category-banner3.jpg',id:3});
-const product4=new products({title: "home",price:'180 L.E',category:'fashion',img:'images/category-banner4.jpg',id:4});
+const product1=new products({title: "phone",price:180,sumPrice: 0,category:'fashion',img:'images/category-banner1.jpg',id:1});
+const product2=new products({title: "car",price:200,sumPrice: 0,category:'fashion',img:'images/category-banner2.jpg',id:2});
+const product3=new products({title: "bike",price:300,sumPrice: 0,category:'fashion',img:'images/category-banner3.jpg',id:3});
+const product4=new products({title: "home",price:400,sumPrice: 0,category:'fashion',img:'images/category-banner4.jpg',id:4});
 
 
 
@@ -114,18 +117,22 @@ function addItems(id){
 
 } 
 
+
 function cartDraw(){
     bdg_counter.innerHTML=userProducts.length
     if(userProducts.length != 0){
             if(userProducts.length !=0){
                 // cart.style.display='block';
                 cardProducts.innerHTML=''
+
                         for(let i=0;i<userProducts.length;i++){
                             cardProducts.innerHTML += `
               <div class="cart_list">
                 
                 <div class="cart_list_title">
-                  <span">${userProducts[i].title}+ ${userProducts[i].price}</span>
+                  <span">${userProducts[i].title}</span>
+                  <span" class="real_price">${userProducts[i].price}</span>
+                  <span" class="sum_price">${userProducts[i].sumPrice}</span>
                 </div>
                 <div class="cart_list_plus_minus">
                   <span >${userProducts[i].count}</span>
@@ -134,10 +141,17 @@ function cartDraw(){
                 </div>
                 </div>  <!-- // cart_list -->
 
-                
+
 
                         `
+
                         }
+                        cardProducts.innerHTML +=`
+                        <div class="viewProduct">
+            
+                        <a href="card.html" >View All Products</a>
+                      </div>
+                        `
             }else{
                 cardProducts.style.display='none';
             }
@@ -153,7 +167,7 @@ function cartDraw(){
         })
         btns.forEach(ele => {
             document.getElementById(ele).style.display='none'
-            document.getElementById(ele+'btn_remove').style.display='block'
+            document.getElementById(ele+'0000').style.display='block'
         });
     }else{
 
@@ -162,10 +176,35 @@ function cartDraw(){
 cartDraw()
 
 function plusBtn(id){
+
+    let real_price = document.querySelector(".real_price")
+    let sum_price = document.querySelector(".sum_price")
+
+
+
     ele=userProducts.find((x)=>{
        return x.id==id
     })
+
+    sum_price.style.display = "none"
     ele.count++;
+
+    
+    let quantity = ele.count
+    
+    const unitePrice = ele.price
+
+    const unitePrice_Parse = parseInt(unitePrice)
+
+    let result = unitePrice_Parse  * quantity 
+
+    
+ele.sumPrice = result
+
+
+
+   
     localStorage.setItem('items',JSON.stringify(userProducts))
+   
     cartDraw()
 }
