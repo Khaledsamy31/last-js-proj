@@ -154,7 +154,8 @@ display: inline-block;
 .btn_remove{
     display: none;
 }
-/* ===============MEDIA QUERY================= */
+/* =====================================MEDIA QUERY================================ */
+/* ==========MEDIA QUERY 567px============= */
 @media (max-width: 567px) {
 
     .logo a{
@@ -170,12 +171,56 @@ display: inline-block;
         font-weight: bold;
     }
 
+.cart_details{
+    display: none;
+}
+/* ===under line favo title */
+.underlineTitle{
+    transition: 1s;
+    border-bottom: 3px solid red;
+    width: 20% !important;
+    margin: auto;
+    margin-bottom: 20px;
+}
+.favo_title:hover .underlineTitle{
+    width: 35% !important;
+}
 
+}
+
+/* ===============MEDIA QUERY 768px================= */
+
+@media (max-width: 768px){
+.cart_details{
+    display: none;
+}
+}
+/* ===============MEDIA QUERY 992px================= */
+
+@media (max-width: 992px){
+.cart_details{
+    display: none;
+}
+/* ===under line favo title */
+.underlineTitle{
+    transition: 1s;
+    border-bottom: 3px solid red;
+    width: 15% !important;
+    margin: auto;
+    margin-bottom: 20px;
+}
+.favo_title:hover .underlineTitle{
+    width: 30% !important;
+}
 }
 .imgs{
     height: 400px !important;
     width: 100% !important;
 }
+/* ====================================END OF MEDIA QUERY============================== */
+
+
+
 /* ===============SEARCHING ===================== */
 .search-box{
     width: 100%;
@@ -192,4 +237,37 @@ display: inline-block;
     
 }
 
+/* ===========TOTAL PRICE==================== */
 
+.total-price{
+    text-align: center;
+    
+}
+/* ============FAVOURITE PRODUCTS================ */
+.underlineTitle{
+    transition: 1s;
+    border-bottom: 3px solid red;
+    width: 8%;
+    margin: auto;
+    margin-bottom: 20px;
+}
+.favo_title:hover .underlineTitle{
+    width: 15%;
+}
+/* =====cart details==== */
+.all_products_list{
+    transition: .2s;
+    border: 1px solid rgb(192, 190, 190);
+    border-radius: 10px;
+}
+.all_products_list:hover{
+    border: 1px solid green;
+    border-radius: 10px;
+    transform: scale(1,1.02);
+}
+.cart_details_title{
+    transition: 1s;
+}
+.all_products_list:hover .cart_details_title{
+    letter-spacing: 1px;
+}
