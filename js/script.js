@@ -43,34 +43,35 @@ class products {
   }
 }
 
+
 const product1 = new products({
-  title: "phone",
-  price: 180,
-  sumPrice: 0,
-  category: "fashion",
+  title: "bus",
+  price: "200",
+  sumPrice: "0",
+  category: "accessories",
   img: "images/category-banner1.jpg",
   id: 1,
 });
 const product2 = new products({
   title: "car",
-  price: 200,
-  sumPrice: 0,
+  price: "200",
+  sumPrice: "0",
   category: "accessories",
   img: "images/category-banner2.jpg",
   id: 2,
 });
 const product3 = new products({
   title: "bike",
-  price: 300,
-  sumPrice: 0,
+  price: "300",
+  sumPrice: "0",
   category: "phones",
   img: "images/category-banner3.jpg",
   id: 3,
 });
 const product4 = new products({
   title: "home",
-  price: 400,
-  sumPrice: 0,
+  price: "400",
+  sumPrice: "0",
   category: "cars",
   img: "images/category-banner4.jpg",
   id: 4,
@@ -94,8 +95,9 @@ function drawProducts() {
         </div><!-- //card-body -->
           </div><!-- //card -->
            </div><!-- //productItem -->
-    `;
+    `
   }
+
 }
 drawProducts();
 function addItems(id) {
@@ -108,6 +110,7 @@ function addItems(id) {
     userProducts.push(product[id]);
     localStorage.setItem("items", JSON.stringify(userProducts));
     cartDraw();
+    
     bdg_counter.innerHTML = userProducts.length;
   } else {
     setTimeout(() => {
@@ -136,7 +139,7 @@ function removeItems(id) {
   bdg_counter.innerHTML = userProducts.length;
 }
 let total_price = document.querySelector("#total_price");
-
+//============cart draw===============================
 function cartDraw() {
   bdg_counter.innerHTML = userProducts.length;
   if (userProducts.length != 0) {
@@ -193,7 +196,7 @@ function cartDraw() {
     });
     btns.forEach((ele) => {
       document.getElementById(ele).style.display = "none";
-      document.getElementById(ele + "0000").style.display = "block";
+      document.getElementById(ele+"0000").style.display = "block";
     });
   } else {
   }
@@ -232,7 +235,6 @@ function plusBtn(id) {
 function minusBtn(id) {
   const removeItem_btn = document.getElementById(id + "0000");
   const addItem_btn = document.getElementById(id);
-
   ele = userProducts.find((x) => {
     return x.id == id;
   });
@@ -244,8 +246,9 @@ function minusBtn(id) {
     } else {
       let index = userProducts.indexOf(ele);
       userProducts.splice(index, 1);
+      console.log(userProducts)
       localStorage.setItem("items", JSON.stringify(userProducts));
-      //to switch from remove btn to add item btn
+      //to switch from remove btn to add item btn in the product cart
       removeItem_btn.style.display = "none";
       addItem_btn.style.display = "block";
 
