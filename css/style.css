@@ -3,6 +3,7 @@
     padding: 0px;
     box-sizing: border-box;
 }
+
 :root{
     :root{
     --maincolor: #ff5a00;
@@ -112,7 +113,6 @@ display: inline-block;
     display: flex;
     justify-content: space-between;
     padding: 5px;
-    
     
 }
 .viewProduct{

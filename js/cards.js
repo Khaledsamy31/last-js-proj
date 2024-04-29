@@ -153,9 +153,9 @@ function drawFav(){
       </div>
       <div class=" col-sm-12 col-md-8 col-xl-12 col-12">
         <div class="card-body">
-          <h5 class="card-title">Title: 1</h5>
-          <h5 class="card-text">Price: 200,000 L.E</h5>
-          <h5 class="card-Category">Category: phones</h5>
+          <h5 class="card-title">Title: ${favourite[i].title}</h5>
+          <h5 class="card-text">Price:${favourite[i].price} L.E</h5>
+          <h5 class="card-Category">Category: ${favourite[i].category}</h5>
           <a href="#" style=" text-align: end; display: block;" ><i class="fas fa-heart" style="font-size: 24px; color: red;" onclick='removeFavourite(${favourite[i].id})' ></i></a>
         </div>
           
