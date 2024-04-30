@@ -90,6 +90,8 @@ function getTotalPrice(){
 }
 totalPrice.innerHTML=sum+'$';
 
+console.log(sum)
+
 }
 getTotalPrice()
 

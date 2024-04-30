@@ -6,6 +6,7 @@ let bdg = document.querySelector(".bdg");
 let searchInput = document.querySelector(".searchInput");
 let searchType = document.querySelector(".searchType");
 
+const items =JSON.parse(localStorage.getItem('items'));
 let cardsproductsDiv = document.querySelector(".carts_products div"); //select cards_products then first div
 //===========================SHOPING CARD ICON===================
 let shopping_card_icon = document.querySelector(".shopping_cart");
@@ -49,32 +50,32 @@ class products {
 
 const product1 = new products({
   title: "bus",
-  price: "200",
-  sumPrice: "0",
+  price: 200,
+  sumPrice: 0,
   category: "accessories",
   img: "images/category-banner1.jpg",
   id: 1,
 });
 const product2 = new products({
   title: "car",
-  price: "200",
-  sumPrice: "0",
+  price: 200,
+  sumPrice: 0,
   category: "accessories",
   img: "images/category-banner2.jpg",
   id: 2,
 });
 const product3 = new products({
   title: "bike",
-  price: "300",
-  sumPrice: "0",
+  price: 300,
+  sumPrice: 0,
   category: "phones",
   img: "images/category-banner3.jpg",
   id: 3,
 });
 const product4 = new products({
   title: "home",
-  price: "400",
-  sumPrice: "0",
+  price: 400,
+  sumPrice: 0,
   category: "cars",
   img: "images/category-banner4.jpg",
   id: 4,
@@ -144,6 +145,15 @@ function removeItems(id) {
   bdg_counter.innerHTML = userProducts.length;
 }
 let total_price = document.querySelector("#total_price");
+
+
+
+
+
+
+
+
+
 //============cart draw===============================
 function cartDraw() {
   bdg_counter.innerHTML = userProducts.length;
@@ -153,33 +163,65 @@ function cartDraw() {
       cardProducts.innerHTML = "";
 
       for (let i = 0; i < userProducts.length; i++) {
-        cardProducts.innerHTML += `
-                  <div class="cart_list">
-                    
-                    <div class="cart_list_title">
-                      <span">${userProducts[i].title}</span>
-                      <span" class="real_price">${userProducts[i].price}</span>
-                    
-                    </div>
-                    <div class="cart_list_plus_minus">
-                    <a href="#" class="minus"><i class="fas fa-minus text-danger" onclick="minusBtn(${userProducts[i].id})"></i></a>
-                    <span >${userProducts[i].count}</span>
-                    <a href="#" class="pluss"><i class="fas fa-plus text-success" style="font-size: 20px; font-weight: bold; "onclick="plusBtn(${userProducts[i].id})"></i></a>
-                     
-                    </div>
-                
-                    </div>  <!-- // cart_list -->
-    
-                    
-    
-                            `;
-      }
-      cardProducts.innerHTML += `
+        if(userProducts[i].sumPrice == 0){
+          
+          cardProducts.innerHTML += `
+          <div class="cart_list">
+                      
+          <div class="cart_list_title">
+                        <span">${userProducts[i].title}</span>
+                        <span" class="real_price">${userProducts[i].price}</span>
                         
+                      
+                      </div>
+                      <div class="cart_list_plus_minus">
+                      <a href="#" class="minus"><i class="fas fa-minus text-danger" onclick="minusBtn(${userProducts[i].id})"></i></a>
+                      <span >${userProducts[i].count}</span>
+                      <a href="#" class="pluss"><i class="fas fa-plus text-success" style="font-size: 20px; font-weight: bold; "onclick="plusBtn(${userProducts[i].id})"></i></a>
+                       
+                      </div>
                   
-                        <a style="display: block; height: 30px; margin-left: 15px;"> Total Price: ${userProducts[0].totalPrice} </a>
+                      </div>  <!-- // cart_list -->
+      
+                      
+      
+                              `
+                             
+        }else{
+          cardProducts.innerHTML += `
+          <div class="cart_list">
+            
+            <div class="cart_list_title">
+              <span">${userProducts[i].title}</span>
+             
+              <span" class="sum_price">${userProducts[i].sumPrice}</span>
+            
+              </div>
+              <div class="cart_list_plus_minus">
+            <a href="#" class="minus"><i class="fas fa-minus text-danger" onclick="minusBtn(${userProducts[i].id})"></i></a>
+            <span >${userProducts[i].count}</span>
+            <a href="#" class="pluss"><i class="fas fa-plus text-success" style="font-size: 20px; font-weight: bold; "onclick="plusBtn(${userProducts[i].id})"></i></a>
+             
+            </div>
+        
+            </div>  <!-- // cart_list -->
+            
+            
+
+                    `
+                  
+        }
+      }
+      
+      cardProducts.innerHTML += `
+      
+                  
+                        <div style="display: block; height: 30px; margin-left: 15px;" id="totalPrice"> Total Price: </div>
                         
                         `;
+                        let totalPrice = document.querySelector("#totalPrice");
+                         
+                    
       cardProducts.innerHTML += `
                             
                         <div class="viewProduct">
@@ -207,6 +249,8 @@ function cartDraw() {
   }
 }
 cartDraw();
+
+                      
 //===================PLUS & MINUS BUTTONS====================
 
 //================ 1- Plus btn===============
@@ -220,19 +264,30 @@ function plusBtn(id) {
 
   ele.count++;
 
-  // let quantity = ele.count
+  const quantity = ele.count
 
-  // const unitePrice = ele.price
+  const unitePrice_String = ele.price
+  
+ 
 
-  // const unitePrice_Parse = parseInt(unitePrice)
+  const unitePrice_Parse = parseInt(unitePrice_String)
+
+  const quantity_price =  quantity * unitePrice_Parse
+
+ ele.sumPrice = quantity_price
+
+
+console.log(ele.price)
+
 
   // let result = unitePrice_Parse  * quantity
 
   // ele.totalPrice = result
 
   localStorage.setItem("items", JSON.stringify(userProducts));
-
+  getTotalPrice()
   cartDraw();
+  
 }
 
 //================ 2- minus btn===============
@@ -246,6 +301,18 @@ function minusBtn(id) {
   if (userProducts.length != 1) {
     if (ele.count != 1) {
       ele.count--;
+
+      const quantity = ele.count
+
+      const unitePrice_String = ele.price
+      
+     
+    
+      const unitePrice_Parse = parseInt(unitePrice_String)
+    
+      const quantity_price =  quantity * unitePrice_Parse
+    
+     ele.sumPrice = quantity_price
       localStorage.setItem("items", JSON.stringify(userProducts));
       
       cartDraw();
@@ -269,6 +336,18 @@ function minusBtn(id) {
     
     if (ele.count != 1){
       ele.count--;
+
+      const quantity = ele.count
+
+      const unitePrice_String = ele.price
+      
+     
+    
+      const unitePrice_Parse = parseInt(unitePrice_String)
+    
+      const quantity_price =  quantity * unitePrice_Parse
+    
+     ele.sumPrice = quantity_price
       localStorage.setItem("items", JSON.stringify(userProducts));
       cartDraw();
     
@@ -287,6 +366,27 @@ function minusBtn(id) {
     
   }
 }
+
+    //===============TOTAL PRICE ================
+    function getTotalPrice(){
+      let sum=0;
+     
+      let prices= items.map((ele) =>{
+        let price = ele.price.toString().split(" ")
+        return parseInt(price[0])
+        
+      })
+      for(let i in items){
+        sum += prices[i] * parseInt(items[i].count) 
+        cartDraw()
+        
+    }
+    cartDraw()
+    console.log(sum)
+  }
+  
+    getTotalPrice()
+
 //======================FAVOURITE ICON==================
 
 function addFavourite(id, e) {
@@ -424,8 +524,6 @@ function successAnimate(){
     position: "top-end",
 icon: "success",
 title: "The product has been successfully added to the cart",
-
-showConfirmButton: false,
 timer: 1500,
 button: false,
 
