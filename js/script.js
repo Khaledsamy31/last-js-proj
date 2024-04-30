@@ -220,6 +220,7 @@ function cartDraw() {
                         
                         `;
                         let totalPrice = document.querySelector("#totalPrice");
+                        totalPrice.innerHTML = "Total price: " + getTotalPrice() + " L.E"
                          
                     
       cardProducts.innerHTML += `
@@ -369,20 +370,24 @@ function minusBtn(id) {
 
     //===============TOTAL PRICE ================
     function getTotalPrice(){
+      let totalPrice = document.querySelector("#totalPrice");
+
       let sum=0;
      
       let prices= items.map((ele) =>{
         let price = ele.price.toString().split(" ")
-        return parseInt(price[0])
+        return parseInt(price)
         
       })
       for(let i in items){
         sum += prices[i] * parseInt(items[i].count) 
-        cartDraw()
         
-    }
-    cartDraw()
-    console.log(sum)
+        
+      }
+     
+      return sum
+
+    
   }
   
     getTotalPrice()
