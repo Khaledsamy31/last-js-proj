@@ -5,16 +5,18 @@ let bdg_counter = document.querySelector(".bdg_counter");
 let bdg = document.querySelector(".bdg");
 let searchInput = document.querySelector(".searchInput");
 let searchType = document.querySelector(".searchType");
-
+// to get items from local storage
 const items =JSON.parse(localStorage.getItem('items'));
 let cardsproductsDiv = document.querySelector(".carts_products div"); //select cards_products then first div
 //===========================SHOPING CARD ICON===================
 let shopping_card_icon = document.querySelector(".shopping_cart");
 let cardProducts = document.querySelector(".carts_products");
 
+// to show/hide cart list
 shopping_card_icon.addEventListener("click", opencard);
 function opencard() {
   const items =JSON.parse(localStorage.getItem('items'));
+  // if there is items in local storage check if it's block change it to none when click, else if cart list is none change it to block when click & change the bdg (parent of cart list) to block
   if (items != 0) {
     //if shopping icon not empty check if it display bloc do it none when click and if it none do t block when click
     if (cardProducts.style.display == "block") {
@@ -27,12 +29,14 @@ function opencard() {
 }
 
 //====================== add & remove btn ==========================
-
+// 3 empty array 1 for favo, 1 for product, 1 for user choice
 let favourite = [];
 let product = [];
+// too make product array != null push("nothing")
 product.push("nothing");
 let userProducts = [];
 
+// constructor carry title..price..sumPrice (this for cart list).. category.. img.. id
 class products {
   constructor({ title, price, sumPrice, category, img, id }) {
     this.title = title;
@@ -42,12 +46,14 @@ class products {
     this.img = img;
     this.id = id;
     this.totalPrice = 0;
+    //count is counter for number of items in cart list
     this.count = 1;
+    // this here for class products, so this to add class content in product array, so producat array now carry all this data
     product.push(this);
   }
 }
 
-
+// to take copy of classt products
 const product1 = new products({
   title: "bus",
   price: 200,
@@ -81,7 +87,9 @@ const product4 = new products({
   id: 4,
 });
 
+//===================================TO DRAW PRODUCTS===========================================
 function drawProducts() {
+  // product array now carry all data existed in class product, so it will keep draw copied products untill product.lenth == i
   for (let i = 1; i < product.length; i++) {
     allProducts.innerHTML += `
     <div class="productItem col col-6 col-sm-6 col-md-4 col-lg-3 col-xl-4 mt-2">
@@ -101,24 +109,35 @@ function drawProducts() {
            </div><!-- //productItem -->
     `
   }
-
+// on line 104 (remove btn) we add 0000 for id to make id of remove different than id of add to cart and for favo icon added 0000 after id
 }
 drawProducts();
+
+//===============================function of add items ===========================================
+
+// we use this func OnClick event when click on add to cart or remove item
 function addItems(id) {
 
   let addItem = document.getElementById(id);
-
+// to identification id of remove and add to it 0000
   let removeItem = document.getElementById(id + "0000");
+ 
+
+ // if user already logged and user clicked on add to cart make add product none and remove item block
   if (localStorage.getItem("email") && localStorage.getItem("firstName")) {
     addItem.style.display = "none";
     removeItem.style.display = "block";
+    // product array carry all data in class products
+    // userproducts.push(product[id]) to add the product we clicked on it, in userProducts array, so userProducts carry all items we clicked on it
     userProducts.push(product[id]);
+    // to save products we clicked on it in local storage
     localStorage.setItem("items", JSON.stringify(userProducts));
     cartDraw();
     successAnimate()
-    
+    // to make counter number == items we added on cart
     bdg_counter.innerHTML = userProducts.length;
   } else {
+    // if user wasn't logged in go back to login page
     setTimeout(() => {
       location.assign("login.html");
     }, 1000);
@@ -126,18 +145,26 @@ function addItems(id) {
 }
 
 function removeItems(id) {
+  // removeItem btn id = the id of clicked product (when click on remove)
   let removeItem = document.getElementById(id);
+  // addItem btn = id of removed btn / 10000 cuz we added on removed btn 0000 so removed btn id / 10000 = id of addItem
+
   let addItem = document.getElementById(id / 10000);
+  // to show add item btn & hide remove btn when we click on remove btn
   addItem.style.display = "block";
   removeItem.style.display = "none";
-
+  // id2 = id / 10000 to get the id number of remove item without 0000 cuz we will remove the product by the id of product
+  // so id2 = main id of product
   let id2 = id / 10000;
-
+  
+  // ele = the id of the product we need to delete
   var ele = userProducts.findIndex((x) => {
+    //here return the id of product that == id2 (the id of remove item after we removed 0000 number from the id)
     return x.id == id2;
   });
   userProducts.splice(ele, 1);
   if (userProducts.length == 0) {
+    // if userProduct is empty hide the cart list and save in local storage (items) & make the counter number = user product.length
     bdg.style.display = "none";
   }
   localStorage.setItem("items", JSON.stringify(userProducts));
@@ -155,7 +182,9 @@ let total_price = document.querySelector("#total_price");
 
 
 //============cart draw===============================
+
 function cartDraw() {
+  // to make counter number == user product.length
   bdg_counter.innerHTML = userProducts.length;
   if (userProducts.length != 0) {
     if (userProducts.length != 0) {
@@ -175,9 +204,9 @@ function cartDraw() {
                       
                       </div>
                       <div class="cart_list_plus_minus">
-                      <a href="#" class="minus"><i class="fas fa-minus text-danger" onclick="minusBtn(${userProducts[i].id})"></i></a>
+                      <a style=" cursor: pointer;" class="minus"><i class="fas fa-minus text-danger" onclick="minusBtn(${userProducts[i].id})"></i></a>
                       <span >${userProducts[i].count}</span>
-                      <a href="#" class="pluss"><i class="fas fa-plus text-success" style="font-size: 20px; font-weight: bold; "onclick="plusBtn(${userProducts[i].id})"></i></a>
+                      <a  class="pluss"><i class="fas fa-plus text-success" style="font-size: 20px; font-weight: bold;  cursor: pointer; "onclick="plusBtn(${userProducts[i].id})"></i></a>
                        
                       </div>
                   
@@ -198,9 +227,9 @@ function cartDraw() {
             
               </div>
               <div class="cart_list_plus_minus">
-            <a href="#" class="minus"><i class="fas fa-minus text-danger" onclick="minusBtn(${userProducts[i].id})"></i></a>
+            <a style=" cursor: pointer;" class="minus"><i class="fas fa-minus text-danger" onclick="minusBtn(${userProducts[i].id})"></i></a>
             <span >${userProducts[i].count}</span>
-            <a href="#" class="pluss"><i class="fas fa-plus text-success" style="font-size: 20px; font-weight: bold; "onclick="plusBtn(${userProducts[i].id})"></i></a>
+            <a  class="pluss"><i class="fas fa-plus text-success" style="font-size: 20px; font-weight: bold;  cursor: pointer; "onclick="plusBtn(${userProducts[i].id})"></i></a>
              
             </div>
         
@@ -220,6 +249,7 @@ function cartDraw() {
                         
                         `;
                         let totalPrice = document.querySelector("#totalPrice");
+                        
                         totalPrice.innerHTML = "Total price: " + getTotalPrice() + " L.E"
                          
                     
@@ -243,6 +273,7 @@ function cartDraw() {
       return arr.id;
     });
     btns.forEach((ele) => {
+      // to hide add to cart when click on it and show remove product
       document.getElementById(ele).style.display = "none";
       document.getElementById(ele+"0000").style.display = "block";
     });
@@ -370,15 +401,20 @@ function minusBtn(id) {
 
     //===============TOTAL PRICE ================
     function getTotalPrice(){
+      // to get data from local storage
+      const items =JSON.parse(localStorage.getItem('items'));
       let totalPrice = document.querySelector("#totalPrice");
 
       let sum=0;
-     
+     // prices carry the price of removed item and turn it to number data type
       let prices= items.map((ele) =>{
+        // price carry the price of removed item but as string data type
         let price = ele.price.toString().split(" ")
+        // here we return price in data type number and save it in prices variable
         return parseInt(price)
         
       })
+      // sum now = prices of clicked product (the price with data type number) * the counter number
       for(let i in items){
         sum += prices[i] * parseInt(items[i].count) 
         
@@ -394,14 +430,19 @@ function minusBtn(id) {
 
 //======================FAVOURITE ICON==================
 
-function addFavourite(id, e) {
+function addFavourite(id) {
+  // ele is carry the id of clicked product (when click on favo)
   const ele = document.getElementById(id);
+  console.log(ele)
+  // mainId = id of favo icon after we remove 00000 number from the id, so main id = the real id of product
   mainId = id / 100000;
+  // to check is there a user
   if (localStorage.getItem("email") && localStorage.getItem("firstName")) {
-    // to check is there a user
+    // if the color of favo is red change it to gray then delete the item from favo
     if (ele.style.color == "red") {
-      ele.style.color = "rgb(185, 184, 184)"; // to change color to gray color if it was red when click
-
+   // gray color
+      ele.style.color = "rgb(185, 184, 184)";
+// to delete the item from favo
       favourite.splice(
         favourite.findIndex((x) => {
           return favourite.id == id;
@@ -412,7 +453,9 @@ function addFavourite(id, e) {
     } else {
       //if user registered and clicked on favo
       ele.style.color = "red"; //change color to red
+      // to add the product we clicked on favo in favo array [].. id /100000 = the main id or the real id of product
       favourite.push(product[id / 100000]); //add in favourite array [] this id
+      // save favo in local storage
       localStorage.setItem("favourite", JSON.stringify(favourite));
     }
   } else {
@@ -421,7 +464,7 @@ function addFavourite(id, e) {
       location.assign("login.html");
     }, 500);
   }
-
+// to stop auto page refresh
   addEventListener("click", (e) => e.preventDefault());
 }
 // =============FAVO ICON COLOR if there is data ==============
